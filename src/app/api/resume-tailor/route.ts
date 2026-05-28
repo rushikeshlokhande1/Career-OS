@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { tailorResumeToJob } from "@/lib/intelligence/resume-tailor";
 import type { ResumeFormatTemplate } from "@/lib/intelligence/resume-tailor";
+import { ensurePdfServerRuntime, extractPdfText } from "@/lib/pdf/server";
 
 export const runtime = "nodejs";
 
@@ -28,11 +29,7 @@ export async function POST(request: Request) {
       }
 
       const buffer = Buffer.from(await file.arrayBuffer());
-      const { PDFParse } = await import("pdf-parse");
-      const parser = new PDFParse({ data: buffer });
-      const parsed = await parser.getText();
-      await parser.destroy();
-      resumeText = parsed.text;
+      resumeText = await extractPdfText(buffer);
       formatTemplate = await extractPdfFormatTemplate(buffer);
     }
 
@@ -54,6 +51,7 @@ export async function POST(request: Request) {
 
 async function extractPdfFormatTemplate(buffer: Buffer): Promise<ResumeFormatTemplate | undefined> {
   try {
+    await ensurePdfServerRuntime();
     const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
     const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buffer) });
     const pdf = await loadingTask.promise;

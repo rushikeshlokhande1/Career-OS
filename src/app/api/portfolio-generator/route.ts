@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { generateAiPortfolio } from "@/lib/intelligence/portfolio-generator";
+import { extractPdfText } from "@/lib/pdf/server";
 
 export const runtime = "nodejs";
 
@@ -30,11 +31,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "AI Portfolio Generator supports PDF resumes." }, { status: 400 });
       }
       const buffer = Buffer.from(await resume.arrayBuffer());
-      const { PDFParse } = await import("pdf-parse");
-      const parser = new PDFParse({ data: buffer });
-      const parsed = await parser.getText();
-      await parser.destroy();
-      resumeText = parsed.text;
+      resumeText = await extractPdfText(buffer);
     }
 
     if (resumeText.trim().length < 80) {

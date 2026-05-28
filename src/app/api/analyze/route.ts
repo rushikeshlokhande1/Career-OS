@@ -5,6 +5,7 @@ import { generateCareerAnalysis } from "@/lib/intelligence/openai-analysis";
 import { parseResumeText } from "@/lib/intelligence/resume-parser";
 import { calculateAtsReport, calculateScoreBreakdown } from "@/lib/intelligence/scoring";
 import type { RecruiterPersona } from "@/lib/intelligence/types";
+import { extractPdfText } from "@/lib/pdf/server";
 
 export const runtime = "nodejs";
 
@@ -35,12 +36,7 @@ export async function POST(request: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { PDFParse } = await import("pdf-parse");
-    const parser = new PDFParse({ data: buffer });
-    const parsedPdf = await parser.getText();
-    await parser.destroy();
-
-    const extractedText = parsedPdf.text.trim();
+    const extractedText = await extractPdfText(buffer);
     const wordCount = extractedText.split(/\s+/).filter(Boolean).length;
     if (wordCount < 80) {
       return NextResponse.json(

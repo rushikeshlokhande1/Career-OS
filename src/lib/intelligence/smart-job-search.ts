@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { extractPdfText } from "@/lib/pdf/server";
 
 export type ExperienceLevel = "fresher" | "junior" | "mid" | "senior";
 
@@ -288,11 +289,7 @@ export async function extractResumeText(file: File) {
   assertResumeSignature(buffer, lowerName);
 
   if (lowerName.endsWith(".pdf") || file.type === "application/pdf") {
-    const { PDFParse } = await import("pdf-parse");
-    const parser = new PDFParse({ data: buffer });
-    const parsed = await parser.getText();
-    await parser.destroy();
-    return parsed.text.trim();
+    return extractPdfText(buffer);
   }
 
   if (lowerName.endsWith(".docx")) {
