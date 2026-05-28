@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 47% 4%;
+  --foreground: 210 40% 98%;
+  --card: 222 35% 8%;
+  --card-foreground: 210 40% 98%;
+  --primary: 175 86% 58%;
+  --primary-foreground: 222 47% 4%;
+  --muted: 222 20% 15%;
+  --muted-foreground: 215 18% 70%;
+  --border: 214 32% 18%;
+  --input: 214 32% 18%;
+  --ring: 175 86% 58%;
+}
+
+html.light {
+  --background: 198 45% 97%;
+  --foreground: 222 35% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 35% 12%;
+  --primary: 181 73% 35%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 197 26% 92%;
+  --muted-foreground: 218 15% 39%;
+  --border: 208 24% 85%;
+  --input: 208 24% 85%;
+  --ring: 181 73% 35%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(20, 184, 166, 0.18), transparent 28rem),
+    radial-gradient(circle at 80% 5%, rgba(96, 165, 250, 0.16), transparent 26rem),
+    radial-gradient(circle at 65% 80%, rgba(245, 158, 11, 0.08), transparent 26rem),
+    #05070d;
+  color: hsl(var(--foreground));
+  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
+}
+
+html.light body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(20, 184, 166, 0.13), transparent 28rem),
+    radial-gradient(circle at 80% 5%, rgba(14, 165, 233, 0.12), transparent 26rem),
+    radial-gradient(circle at 65% 80%, rgba(245, 158, 11, 0.08), transparent 26rem),
+    #f6fafb;
+}
+
+::selection {
+  background: rgba(45, 212, 191, 0.3);
+}
+
+.noise {
+  display: none;
+}
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
+  box-shadow: 0 18px 80px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(10px);
+}
+
+html.light .glass {
+  border-color: rgba(15, 23, 42, 0.1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(236, 253, 245, 0.62));
+  box-shadow: 0 18px 70px rgba(15, 23, 42, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #f8fafc, #99f6e4 42%, #bfdbfe 78%, #fef3c7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.light .gradient-text {
+  background: linear-gradient(90deg, #0f172a, #0f766e 46%, #2563eb 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-mask {
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+
+html.light .bg-grid-fade {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+}
+
+html.light .shadow-panel {
+  box-shadow: 0 18px 70px rgba(15, 23, 42, 0.11);
+}
+
+html.light [class~="bg-[#05070d]"],
+html.light [class~="bg-[#070b13]"],
+html.light [class~="bg-[#03070c]"] {
+  background-color: #f6fafb !important;
+}
+
+html.light [class*="bg-black/"] {
+  background-color: rgba(15, 23, 42, 0.045) !important;
+}
+
+html.light [class*="bg-white/"] {
+  background-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+html.light [class*="border-white/"] {
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+html.light [class~="text-white"],
+html.light [class*="text-white/"] {
+  color: rgba(15, 23, 42, 0.9) !important;
+}
+
+html.light [class*="placeholder:text-white/"]::placeholder {
+  color: rgba(71, 85, 105, 0.58) !important;
+}
+
+html.light [class~="text-teal-100"],
+html.light [class~="text-teal-200"] {
+  color: #0f766e !important;
+}
+
+html.light [class~="text-amber-100"],
+html.light [class~="text-amber-200"] {
+  color: #b45309 !important;
+}
