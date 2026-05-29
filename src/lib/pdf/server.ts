@@ -1,12 +1,22 @@
-import { createRequire } from "module";
+import PDFParser from "pdf2json";
 
-type PdfParse = (buffer: Buffer) => Promise<{ text?: string }>;
-
-const require = createRequire(import.meta.url);
+type PdfParserError = { parserError?: Error } | Error;
 
 export async function extractPdfText(buffer: Buffer) {
-  const parse = require("pdf-parse/lib/pdf-parse.js") as PdfParse;
-  const parsed = await parse(buffer);
+  return new Promise<string>((resolve, reject) => {
+    const parser = new PDFParser(null, true);
 
-  return parsed.text?.trim() ?? "";
+    parser.once("pdfParser_dataError", (error: PdfParserError) => {
+      parser.destroy();
+      reject(error instanceof Error ? error : error.parserError ?? new Error("PDF parsing failed."));
+    });
+
+    parser.once("pdfParser_dataReady", () => {
+      const text = parser.getRawTextContent().trim();
+      parser.destroy();
+      resolve(text);
+    });
+
+    parser.parseBuffer(buffer);
+  });
 }
