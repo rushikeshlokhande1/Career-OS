@@ -13,8 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CareerOS AI",
-  description: "AI-powered Industry Readiness Operating System for students and freshers.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://careeros-ai.vercel.app"),
+  title: {
+    default: "CareerOS AI",
+    template: "%s | CareerOS AI",
+  },
+  description:
+    "An AI-powered career readiness operating system for resume scoring, job matching, portfolio generation, and interview practice.",
+  applicationName: "CareerOS AI",
+  keywords: [
+    "career readiness",
+    "AI resume analysis",
+    "ATS resume scoring",
+    "portfolio generator",
+    "interview practice",
+    "job search",
+  ],
+  authors: [{ name: "CareerOS AI" }],
+  openGraph: {
+    title: "CareerOS AI",
+    description:
+      "Turn your resume, GitHub, and projects into a guided application workflow with AI-powered readiness scoring.",
+    type: "website",
+    images: ["/images/careeros-hero.png"],
+  },
 };
 
 export default function RootLayout({
